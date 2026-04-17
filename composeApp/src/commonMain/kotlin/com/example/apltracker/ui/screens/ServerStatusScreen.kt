@@ -55,8 +55,8 @@ fun ServerStatusScreen(repo: ApexRepository) {
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 groups.forEach { (name, regions) -> ServerGroupCard(name, regions) }
-                s.data.otherPlatforms?.forEach { (platform, regions) ->
-                    ServerGroupCard("其它平台：$platform", regions)
+                s.data.otherPlatforms?.takeIf { it.isNotEmpty() }?.let { others ->
+                    ServerGroupCard("其它平台", others)
                 }
             }
         }

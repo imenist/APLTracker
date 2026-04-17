@@ -12,8 +12,18 @@ data class BridgeResponse(
     val global: GlobalInfo? = null,
     val realtime: RealtimeInfo? = null,
     val legends: LegendsInfo? = null,
+    // total 是一个很扁平的 Map：key 是 tracker id (wins_season_18 / kd / ...)
+    // value 每条形如 {"name": "...", "value": 123} 或 {"name":"KD","value":"-1"}
+    val total: Map<String, TotalStat>? = null,
     @SerialName("Error") val error: String? = null,
     val errorCode: String? = null,
+)
+
+@Serializable
+data class TotalStat(
+    val name: String? = null,
+    // 绝大多数是数字，但部分 tracker（例如 kd）是字符串，所以用 JsonElement 兜底
+    val value: JsonElement? = null,
 )
 
 @Serializable
@@ -70,7 +80,8 @@ data class RealtimeInfo(
 @Serializable
 data class LegendsInfo(
     val selected: SelectedLegend? = null,
-    val all: JsonElement? = null,
+    // key 为英雄名（包含 "Global"），每个英雄可能包含 data/gameInfo/ImgAssets 任意子集
+    val all: Map<String, LegendAllEntry>? = null,
 )
 
 @Serializable
@@ -79,6 +90,19 @@ data class SelectedLegend(
     val data: List<LegendStat>? = null,
     val gameInfo: LegendGameInfo? = null,
     val ImgAssets: LegendImgAssets? = null,
+)
+
+@Serializable
+data class LegendAllEntry(
+    val data: List<LegendStat>? = null,
+    val gameInfo: LegendGameInfo? = null,
+    val ImgAssets: LegendImgAssets? = null,
+)
+
+@Serializable
+data class LegendBadge(
+    val name: String? = null,
+    val value: JsonElement? = null,
 )
 
 @Serializable
@@ -132,7 +156,8 @@ data class ServersResponse(
     @SerialName("EA_accounts") val eaAccounts: Map<String, ServerRegionStatus>? = null,
     @SerialName("ApexOauth_Crossplay") val apexOauthCrossplay: Map<String, ServerRegionStatus>? = null,
     @SerialName("selfCoreTest") val selfCoreTest: Map<String, ServerRegionStatus>? = null,
-    @SerialName("otherPlatforms") val otherPlatforms: Map<String, Map<String, ServerRegionStatus>>? = null,
+    // 其他平台：key 为平台名（例如 "Playstation-Network"），value 直接就是状态对象
+    @SerialName("otherPlatforms") val otherPlatforms: Map<String, ServerRegionStatus>? = null,
 )
 
 @Serializable
@@ -220,6 +245,16 @@ data class Assets(
     val large: String? = null,
     val small: String? = null,
     val video: String? = null,
+)
+
+// ---- /origin ----
+@Serializable
+data class OriginResponse(
+    val name: String? = null,
+    val uid: String? = null,
+    val pid: String? = null,
+    val avatar: String? = null,
+    @SerialName("Error") val error: String? = null,
 )
 
 // ---- 平台枚举 ----

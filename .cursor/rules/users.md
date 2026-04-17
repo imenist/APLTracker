@@ -17,7 +17,7 @@
 
 # API 规范 (Apex Legends Status API)
 - **官方api文档**: `https://apexlegendsapi.com/#introduction/`
-- **Base URL**：`https://api.mozambiquehe.al/`
+- **Base URL**：`https://api.mozambiquehe.re/`
 - **Auth Key (密钥)**：`5eb953a2c3e54507a69adf0064d4a2de`
 - **强制规则**：在你生成的任何 API 请求路径中，**必须**始终在末尾拼接参数 `&auth=5eb953a2c3e54507a69adf0064d4a2de`。
 

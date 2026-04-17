@@ -7,4 +7,5 @@ enum class Screen(val title: String, val needsPlayer: Boolean) {
     ServerStatus("服务器状态", false),
     MapRotation("地图轮换", false),
     Store("商店信息", false),
+    OriginUID("获取用户UID", true),
 }

@@ -40,6 +40,7 @@ import com.example.apltracker.ui.rememberCurrentUser
 import com.example.apltracker.ui.screens.HomeScreen
 import com.example.apltracker.ui.screens.MapRotationScreen
 import com.example.apltracker.ui.screens.MatchHistoryScreen
+import com.example.apltracker.ui.screens.OriginScreen
 import com.example.apltracker.ui.screens.PlayerStatsScreen
 import com.example.apltracker.ui.screens.ServerStatusScreen
 import com.example.apltracker.ui.screens.StoreScreen
@@ -115,6 +116,7 @@ fun App() {
                             Screen.ServerStatus -> ServerStatusScreen(repo)
                             Screen.MapRotation -> MapRotationScreen(repo)
                             Screen.Store -> StoreScreen(repo)
+                            Screen.OriginUID -> OriginScreen(repo)
                         }
                     }
                 }

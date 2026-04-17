@@ -28,6 +28,7 @@ private val items = listOf(
     FeatureItem(Screen.ServerStatus, "/servers · 各平台服务器延迟与状态"),
     FeatureItem(Screen.MapRotation, "/maprotation · 当前及下一张地图"),
     FeatureItem(Screen.Store, "/store · 当前商店在售物品"),
+    FeatureItem(Screen.OriginUID, "/origin · 获取用户 UID 与信息"),
 )
 
 @Composable

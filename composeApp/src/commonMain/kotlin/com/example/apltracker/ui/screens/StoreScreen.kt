@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.apltracker.data.ApexApiException
 import com.example.apltracker.data.ApexRepository
 import com.example.apltracker.data.StoreItem
 import com.example.apltracker.ui.ErrorBanner
@@ -35,7 +36,22 @@ fun StoreScreen(repo: ApexRepository) {
     LaunchedEffect(Unit) {
         state = runCatching { repo.getStore() }.fold(
             onSuccess = { UiState.Success(it) },
-            onFailure = { UiState.Error(it.toErrorText()) },
+            onFailure = { err ->
+                // /store 端点已被 ALS 下线，这种业务级错误给用户一个友好的中文说明，
+                // 同时保留原始英文错误文本方便复制排查。
+                val message = if (err is ApexApiException) {
+                    buildString {
+                        appendLine("商店接口暂时不可用。")
+                        appendLine()
+                        appendLine("Apex Legends Status 已下线 /store 端点，")
+                        appendLine("APLTracker 当前无法再获取商店轮换数据，请稍后再来。")
+                        appendLine()
+                        append("原始错误：")
+                        append(err.message ?: "")
+                    }
+                } else err.toErrorText()
+                UiState.Error(message)
+            },
         )
     }
     when (val s = state) {
